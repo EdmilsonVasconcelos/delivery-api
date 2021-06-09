@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.delivery.api.delivery.dto.request.SaveUserDTO;
-import com.delivery.api.delivery.dto.response.UserSavedDTO;
+import com.delivery.api.delivery.dto.user.request.SaveUserDTO;
+import com.delivery.api.delivery.dto.user.response.UserSavedDTO;
 import com.delivery.api.delivery.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.delivery.api.delivery.dto.request;
+package com.delivery.api.delivery.dto.user.request;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

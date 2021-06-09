@@ -1,4 +1,4 @@
-package com.delivery.api.delivery.dto.response;
+package com.delivery.api.delivery.dto.user.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.delivery.api.delivery.dto.request.SaveUserDTO;
-import com.delivery.api.delivery.dto.response.UserSavedDTO;
+import com.delivery.api.delivery.dto.user.request.SaveUserDTO;
+import com.delivery.api.delivery.dto.user.response.UserSavedDTO;
 import com.delivery.api.delivery.exception.UserExistsException;
 import com.delivery.api.delivery.exception.UserNotExistException;
 import com.delivery.api.delivery.model.User;

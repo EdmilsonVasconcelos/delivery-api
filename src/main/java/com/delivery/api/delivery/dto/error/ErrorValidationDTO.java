@@ -1,4 +1,4 @@
-package com.delivery.api.delivery.dto;
+package com.delivery.api.delivery.dto.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,7 +7,9 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class ExceptionResponse {
+public class ErrorValidationDTO {
+	
+	private String field;
 	
 	private String error;
 
