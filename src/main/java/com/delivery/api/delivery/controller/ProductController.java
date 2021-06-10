@@ -9,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -78,5 +80,18 @@ public class ProductController {
 		
 		return response;
 	}
+	
+	@DeleteMapping
+	@CacheEvict(value = "listProducts", allEntries = true)
+	public ResponseEntity<ProductReponseDTO> deleteProduct(@RequestParam Long idProduct) {
+		
+		log.debug("ProductController.deleteProduct - Start - idProduct: []", idProduct);
+		
+		productService.deleteProduct(idProduct);
+		
+		log.debug("ProductController.deleteProduct - Finish - idProduct: []", idProduct);
+		
+		return ResponseEntity.noContent().build();
+	} 
 
 }

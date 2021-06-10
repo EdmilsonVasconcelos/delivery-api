@@ -88,6 +88,18 @@ public class ProductService {
 		return response;
 		
 	}
+	
+	public void deleteProduct(Long idProduct) {
+		
+		log.debug("ProductService.deleteProduct - Start - idProduct:  [{}]", idProduct);
+		
+		checkIfExistsProductById(idProduct);
+		
+		productRepository.deleteById(idProduct);
+		
+		log.debug("ProductService.deleteProduct - Finish - idProduct:  [{}]", idProduct);
+		
+	}
 
 	private void checkIfExistsProductByName(String nameProduct) {
 		
