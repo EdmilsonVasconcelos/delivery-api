@@ -6,9 +6,12 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.delivery.api.delivery.dto.user.request.ChangePasswordRequestDTO;
 import com.delivery.api.delivery.dto.user.request.SaveUserDTO;
 import com.delivery.api.delivery.dto.user.response.UserSavedDTO;
 import com.delivery.api.delivery.exception.UserExistsException;
@@ -75,6 +78,38 @@ public class UserService {
 		
 	}
 	
+	public UserSavedDTO changePassword(ChangePasswordRequestDTO request) {
+		
+		log.debug("UserService.updateUser - Start - Request");
+		
+		String userLogged = getEmailUserLogged();
+		
+		User userTosave = getUserByEmail(userLogged);
+		
+		userTosave.setPassword(new BCryptPasswordEncoder().encode(request.getPassword().toString()));	
+		
+		User userSaved = userRepository.save(userTosave);
+		
+		UserSavedDTO response = mapper.map(userSaved, UserSavedDTO.class);
+		
+		log.debug("UserService.updateUser - Finish - Request:  [{}], Response:  [{}]", response);
+		
+		return response;
+			
+		
+	}
+	
+	private String getEmailUserLogged () {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		if (principal instanceof UserDetails) {
+		    return ((UserDetails)principal).getUsername();
+		} else {
+		    return principal.toString();
+		}
+		
+	}
+	
 	public void deleteUser(Long idUser) {
 		
 		log.debug("UserService.deleteUser - Start - idUser:  [{}]", idUser);
@@ -87,6 +122,9 @@ public class UserService {
 		
 	}
 	
+	private User getUserByEmail(String email) {
+		return userRepository.findByEmail(email).orElseThrow(() -> new UserNotExistException(String.format(USER_WITH_EMAIL_NOT_EXIST, email)));
+	}
 
 	private void checkExistUser(String email) {
 		

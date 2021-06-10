@@ -29,6 +29,8 @@ public class TokenService {
 		
 		User userLogged = (User) authentication.getPrincipal();
 		
+		System.out.println(userLogged);
+		
 		Date today = new Date();
 		
 		Date dateExpiration = new Date(today.getTime() + Long.parseLong(expiration));
