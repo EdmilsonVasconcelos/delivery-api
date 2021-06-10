@@ -1,12 +1,15 @@
 package com.delivery.api.delivery.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +31,20 @@ public class ProductController {
 	
 	@Autowired
 	private ProductService productService;
+	
+	@GetMapping
+	@Cacheable(value = "listProducts")
+	public ResponseEntity<List<ProductReponseDTO>> getAllproducts() {
+		
+		log.debug("ProductController.getAllproducts - Start ");
+		
+		List<ProductReponseDTO> response = productService.getAllproducts();
+		
+		log.debug("ProductController.getAllproducts - Finish - Response:  [{}]", response);
+		
+		return ResponseEntity.ok(response);
+		
+	}
 	
 	@PostMapping
 	@CacheEvict(value = "listProducts", allEntries = true)

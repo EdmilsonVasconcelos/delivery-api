@@ -1,8 +1,8 @@
 package com.delivery.api.delivery.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-
-import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +44,7 @@ public class ProductService {
 		
 		ProductReponseDTO response = mapper.map(productSaved, ProductReponseDTO.class);
 		
-		log.debug("ProductService.saveProduct - Start - Request [{}], Response:  [{}]", request, response);
+		log.debug("ProductService.saveProduct - Finish - Request [{}], Response:  [{}]", request, response);
 		
 		return response;
 		
@@ -62,11 +62,33 @@ public class ProductService {
 		
 		ProductReponseDTO response = mapper.map(productSaved, ProductReponseDTO.class);
 		
-		log.debug("ProductService.updateproduct - Start - Request [{}], Response:  [{}]", request, response);
+		log.debug("ProductService.updateproduct - Finish - Request [{}], Response:  [{}]", request, response);
 		
 		return response;
 	}
 	
+	public List<ProductReponseDTO> getAllproducts() {
+		
+		log.debug("ProductService.updateproduct - Start");
+		
+		List<Product> allProducts = productRepository.findAll();
+		
+		List<ProductReponseDTO> response = new ArrayList<>();
+		
+		allProducts.forEach(product -> {
+			
+			ProductReponseDTO productResponse = mapper.map(product, ProductReponseDTO.class);
+			
+			response.add(productResponse);
+			
+		});
+		
+		log.debug("ProductService.updateproduct - Finish - Response [{}]", response);
+		
+		return response;
+		
+	}
+
 	private void checkIfExistsProductByName(String nameProduct) {
 		
 		log.debug("ProductService.checkExistsProduct - Start - Product:  [{}]", nameProduct);
