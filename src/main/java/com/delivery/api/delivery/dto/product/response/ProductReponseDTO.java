@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductSavedResponseDTO {
+public class ProductReponseDTO {
 	
 	private Long id;
 	

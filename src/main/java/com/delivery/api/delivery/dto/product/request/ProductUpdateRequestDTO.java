@@ -12,7 +12,10 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class ProductRequestDTO {
+public class ProductUpdateRequestDTO {
+	
+	@NotNull(message = "O id é obrigatório")
+	private Long id;
 	
 	@NotNull(message = "O nome é obrigatório")
 	@Size(message = "O nome deve ter entre 2 e 50 caracteres", min = 2, max = 90)
@@ -26,12 +29,12 @@ public class ProductRequestDTO {
 	private BigDecimal priceCredit;	
 	
 	@NotNull(message = "A descricao é obrigatória")
-	@Size(message = "A descricao deve ter entre 4 e 255 caracteres", min = 4, max = 255)
+	@Size(message = "A descricao deve ter entre 5 e 255 caracteres", min = 5, max = 255)
 	private String description;
 	
 	private Boolean available;
 	
-	ProductRequestDTO() {
+	ProductUpdateRequestDTO() {
 		this.priceDebit = BigDecimal.ZERO;
 		this.priceCredit = BigDecimal.ZERO;
 		this.available = Boolean.FALSE;
