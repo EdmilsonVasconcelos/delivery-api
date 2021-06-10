@@ -42,5 +42,11 @@ public class ErrorValidationHandler {
 	public ExceptionResponse handle(UserExistsException exception) {
 		return new ExceptionResponse(exception.getMessage());
 	}
+	
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(ProductExistsException.class)
+	public ExceptionResponse handle(ProductExistsException exception) {
+		return new ExceptionResponse(exception.getMessage());
+	}
 
 }
