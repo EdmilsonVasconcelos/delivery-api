@@ -15,11 +15,12 @@ import com.delivery.api.delivery.dto.product.response.ProductReponseDTO;
 import com.delivery.api.delivery.dto.purchase.request.PurchaseRequestDTO;
 import com.delivery.api.delivery.dto.purchase.response.PurchaseResponseDTO;
 import com.delivery.api.delivery.exception.ProductNotExistsException;
+import com.delivery.api.delivery.exception.PurchaseNotExistsException;
 import com.delivery.api.delivery.model.Customer;
 import com.delivery.api.delivery.model.Product;
 import com.delivery.api.delivery.model.Purchase;
 import com.delivery.api.delivery.repository.ProductRepository;
-import com.delivery.api.delivery.repository.RequestRepository;
+import com.delivery.api.delivery.repository.PurchaseRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,8 +30,10 @@ public class PurchaseService {
 	
 	private static final String PRODUCT_WITH_ID_NOT_EXISTS = "Produto com id %s nao existe";
 	
+	private static final String PURCHASE_WITH_ID_NOT_EXISTS = "pedido com id %s nao existe";
+	
 	@Autowired
-	private RequestRepository requestRepository;
+	private PurchaseRepository purchaseRepository;
 	
 	@Autowired
 	private ProductRepository productRepository;
@@ -48,7 +51,7 @@ public class PurchaseService {
 		
 		Purchase purchaseToSave = Converter.toPurachase(request, customer, products);
 		
-		Purchase purchaseSaved = requestRepository.save(purchaseToSave);
+		Purchase purchaseSaved = purchaseRepository.save(purchaseToSave);
 		
 		CustomerResponseDTO customerSaved = mapper.map(purchaseSaved.getCustomer(), CustomerResponseDTO.class);
 		
@@ -66,13 +69,44 @@ public class PurchaseService {
 		
 		log.debug("PurchaseService.getAllpurchases - Start");
 		
-		List<Purchase> allRequests = requestRepository.findByIsOpenTrue();
+		List<Purchase> allRequests = purchaseRepository.findByIsOpenTrue();
 		
 		List<PurchaseResponseDTO> response = allRequests.stream().map(request -> mapper.map(request, PurchaseResponseDTO.class)).collect(Collectors.toList());
 		
 		log.debug("PurchaseService.getAllpurchases - Finish -  Response:  [{}]", response);
 		
 		return response;
+		
+	}
+	
+	public PurchaseResponseDTO alterStatusPurchase(Long idPurchase) {
+		
+		log.debug("PurchaseService.closePurchase - Start - alterStatusPurchase:  [{}]", idPurchase);
+		
+		Purchase purchase = getPurchaseById(idPurchase);
+		
+		purchase.setIsOpen(!purchase.getIsOpen());
+		
+		Purchase purchaseSaved = purchaseRepository.save(purchase);
+		
+		PurchaseResponseDTO response = mapper.map(purchaseSaved, PurchaseResponseDTO.class);
+		
+		log.debug("PurchaseService.closePurchase - Finish - alterStatusPurchase [{}], Response:  [{}]", idPurchase, response);
+		
+		return response;
+		
+	}
+	
+	private Purchase getPurchaseById(Long idPurchase) {
+		
+		log.debug("PurchaseService.getPurchaseById - Start - idPurchase:  [{}]", idPurchase);
+		
+		Purchase purchase = purchaseRepository.findById(idPurchase)
+				.orElseThrow(() -> new PurchaseNotExistsException(String.format(PURCHASE_WITH_ID_NOT_EXISTS, idPurchase)));
+		
+		log.debug("PurchaseService.getPurchaseById - Finish - idPurchase [{}], Response:  [{}]", idPurchase, purchase);
+		
+		return purchase;
 		
 	}
 	

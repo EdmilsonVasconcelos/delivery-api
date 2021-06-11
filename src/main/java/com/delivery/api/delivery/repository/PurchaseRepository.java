@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.delivery.api.delivery.model.Purchase;
 
-public interface RequestRepository extends JpaRepository<Purchase, Long> {
+public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
 	
 	List<Purchase> findByIsOpenTrue();
 
