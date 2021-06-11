@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.delivery.api.delivery.converter.purchase.Converter;
 import com.delivery.api.delivery.dto.customer.response.CustomerResponseDTO;
+import com.delivery.api.delivery.dto.product.response.ProductReponseDTO;
 import com.delivery.api.delivery.dto.purchase.request.PurchaseRequestDTO;
 import com.delivery.api.delivery.dto.purchase.response.PurchaseResponseDTO;
 import com.delivery.api.delivery.exception.ProductNotExistsException;
@@ -41,11 +42,19 @@ public class PurchaseService {
 		
 		log.debug("PurchaseService.savePurchase - Start - Request:  [{}]", request);
 		
-		Purchase requestToSave = Converter.toRequest(request, mapper.map(request.getCustomer(), Customer.class), getProductsPurchase(request.getProducts()));
+		Customer customer = mapper.map(request.getCustomer(), Customer.class);
 		
-		Purchase requestSaved = requestRepository.save(requestToSave);
+		List<Product> products = getProductsPurchase(request.getProducts());
 		
-		PurchaseResponseDTO response = Converter.toRequestResponseDTO(requestSaved, mapper.map(request.getCustomer(), CustomerResponseDTO.class), request.getProducts());
+		Purchase purchaseToSave = Converter.toPurachase(request, customer, products);
+		
+		Purchase purchaseSaved = requestRepository.save(purchaseToSave);
+		
+		CustomerResponseDTO customerSaved = mapper.map(purchaseSaved.getCustomer(), CustomerResponseDTO.class);
+		
+		List<ProductReponseDTO> productsSaved = getProductsPurchaseResponseDTO(purchaseSaved.getProducts());
+		
+		PurchaseResponseDTO response = Converter.toPurchaseResponseDTO(purchaseSaved, customerSaved, productsSaved);
 		
 		log.debug("PurchaseService.savePurchase - Finish - Request [{}], Response:  [{}]", request, response);
 		
@@ -59,15 +68,7 @@ public class PurchaseService {
 		
 		List<Purchase> allRequests = requestRepository.findByIsOpenTrue();
 		
-		List<PurchaseResponseDTO> response = new ArrayList<>();
-		
-		allRequests.forEach(request -> {
-			
-			PurchaseResponseDTO requestResponseDTO = Converter.toRequestResponseDTO(request, mapper.map(request.getCustomer(), CustomerResponseDTO.class), getIdsByListProducts(request.getProducts()));
-			
-			response.add(requestResponseDTO);
-			
-		});
+		List<PurchaseResponseDTO> response = allRequests.stream().map(request -> mapper.map(request, PurchaseResponseDTO.class)).collect(Collectors.toList());
 		
 		log.debug("PurchaseService.getAllpurchases - Finish -  Response:  [{}]", response);
 		
@@ -75,12 +76,16 @@ public class PurchaseService {
 		
 	}
 	
-	private List<Long> getIdsByListProducts(List<Product> products) {
+	private List<ProductReponseDTO> getProductsPurchaseResponseDTO(List<Product> products) {
 		
-		log.debug("PurchaseService.getIdsByListProducts - Start");
+		log.debug("PurchaseService.getProductsPurchaseResponseDTOByListProducts - Start - Request:  [{}]", products);
 		
-		return products.stream().map(product -> product.getId()).collect(Collectors.toList());
-				
+		List<ProductReponseDTO> response = products.stream().map(product -> mapper.map(product, ProductReponseDTO.class)).collect(Collectors.toList());
+		
+		log.debug("PurchaseService.getProductsPurchaseResponseDTOByListProducts - Finish - Request:  [{}], Response: [{}]", products, response);
+		
+		return response;
+	
 	}
 	
 	private List<Product> getProductsPurchase(List<Long> products) {

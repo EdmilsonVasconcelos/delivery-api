@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class ProductRequestDTO {
+public class ProductToUpdateRequestDTO {
 	
 	@NotNull(message = "O id é obrigatório")
 	private Long id;
@@ -34,7 +34,7 @@ public class ProductRequestDTO {
 	
 	private Boolean available;
 	
-	ProductRequestDTO() {
+	ProductToUpdateRequestDTO() {
 		this.priceDebit = BigDecimal.ZERO;
 		this.priceCredit = BigDecimal.ZERO;
 		this.available = Boolean.FALSE;

@@ -31,7 +31,7 @@ public class PurchaseController {
 	private PurchaseService requestService;
 	
 	@GetMapping
-	@Cacheable(value = "listRequests")
+	@Cacheable(value = "listPurchases")
 	public ResponseEntity<List<PurchaseResponseDTO>> getAllPurchases() {
 		
 		log.debug("PurchaseController.getAllPurchases - Start ");
@@ -45,7 +45,7 @@ public class PurchaseController {
 	}
 	
 	@PostMapping
-	@CacheEvict(value = "listRequests", allEntries = true)
+	@CacheEvict(value = "listPurchases", allEntries = true)
 	public ResponseEntity<PurchaseResponseDTO> savePurchase(@Valid @RequestBody PurchaseRequestDTO request) {
 		
 		log.debug("PurchaseController.savePurchase - Start - Request:  [{}]", request);
