@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.delivery.api.delivery.dto.product.request.ProductToSaveRequestDTO;
-import com.delivery.api.delivery.dto.product.request.ProductUpdateRequestDTO;
+import com.delivery.api.delivery.dto.product.request.ProductRequestDTO;
 import com.delivery.api.delivery.dto.product.response.ProductReponseDTO;
 import com.delivery.api.delivery.service.ProductService;
 
@@ -68,7 +68,7 @@ public class ProductController {
 	
 	@PutMapping
 	@CacheEvict(value = "listProducts", allEntries = true)
-	public ResponseEntity<ProductReponseDTO> updateProduct(@Valid @RequestBody ProductUpdateRequestDTO request) {
+	public ResponseEntity<ProductReponseDTO> updateProduct(@Valid @RequestBody ProductRequestDTO request) {
 		
 		log.debug("ProductController.updateProduct - Start - Request");
 		

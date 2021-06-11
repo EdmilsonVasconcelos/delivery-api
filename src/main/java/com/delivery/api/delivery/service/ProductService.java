@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.delivery.api.delivery.dto.product.request.ProductToSaveRequestDTO;
-import com.delivery.api.delivery.dto.product.request.ProductUpdateRequestDTO;
+import com.delivery.api.delivery.dto.product.request.ProductRequestDTO;
 import com.delivery.api.delivery.dto.product.response.ProductReponseDTO;
 import com.delivery.api.delivery.exception.ProductExistsException;
 import com.delivery.api.delivery.exception.ProductNotExistsException;
@@ -50,7 +50,7 @@ public class ProductService {
 		
 	}
 
-	public ProductReponseDTO updateproduct(ProductUpdateRequestDTO request) {
+	public ProductReponseDTO updateproduct(ProductRequestDTO request) {
 		
 		log.debug("ProductService.updateproduct - Start - Request:  [{}]", request);
 		
