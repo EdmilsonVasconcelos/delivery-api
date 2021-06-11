@@ -1,18 +1,18 @@
-package com.delivery.api.delivery.converter.request;
+package com.delivery.api.delivery.converter.purchase;
 
 import java.util.List;
 
 import com.delivery.api.delivery.dto.customer.response.CustomerResponseDTO;
-import com.delivery.api.delivery.dto.requestEntity.request.RequestDTO;
-import com.delivery.api.delivery.dto.requestEntity.response.RequestResponseDTO;
+import com.delivery.api.delivery.dto.purchase.request.PurchaseRequestDTO;
+import com.delivery.api.delivery.dto.purchase.response.PurchaseResponseDTO;
 import com.delivery.api.delivery.model.Customer;
 import com.delivery.api.delivery.model.Product;
-import com.delivery.api.delivery.model.Request;
+import com.delivery.api.delivery.model.Purchase;
 
 public class Converter {
 	
-	public static Request toRequest(RequestDTO request, Customer customer, List<Product> productsRequest) {
-		return Request.builder()
+	public static Purchase toRequest(PurchaseRequestDTO request, Customer customer, List<Product> productsRequest) {
+		return Purchase.builder()
 				.customer(customer)
 				.methodPayment(request.getMethodPayment())
 				.observation(request.getObservation())
@@ -23,8 +23,8 @@ public class Converter {
 		
 	}
 	
-	public static RequestResponseDTO toRequestResponseDTO(Request request, CustomerResponseDTO customer, List<Long> productsRequest) {
-		return RequestResponseDTO.builder()
+	public static PurchaseResponseDTO toRequestResponseDTO(Purchase request, CustomerResponseDTO customer, List<Long> productsRequest) {
+		return PurchaseResponseDTO.builder()
 				.id(request.getId())
 				.customer(customer)
 				.products(productsRequest)

@@ -33,7 +33,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Request {
+public class Purchase {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.delivery.api.delivery.model.Request;
+import com.delivery.api.delivery.model.Purchase;
 
-public interface RequestRepository extends JpaRepository<Request, Long> {
+public interface RequestRepository extends JpaRepository<Purchase, Long> {
 	
-	List<Request> findByIsOpenTrue();
+	List<Purchase> findByIsOpenTrue();
 
 }

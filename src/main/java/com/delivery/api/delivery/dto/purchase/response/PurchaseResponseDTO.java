@@ -1,4 +1,4 @@
-package com.delivery.api.delivery.dto.requestEntity.response;
+package com.delivery.api.delivery.dto.purchase.response;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class RequestResponseDTO {
+public class PurchaseResponseDTO {
 	
 	private Long id;
 	

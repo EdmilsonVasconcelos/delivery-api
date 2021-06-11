@@ -16,29 +16,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.delivery.api.delivery.dto.requestEntity.request.RequestDTO;
-import com.delivery.api.delivery.dto.requestEntity.response.RequestResponseDTO;
-import com.delivery.api.delivery.service.RequestService;
+import com.delivery.api.delivery.dto.purchase.request.PurchaseRequestDTO;
+import com.delivery.api.delivery.dto.purchase.response.PurchaseResponseDTO;
+import com.delivery.api.delivery.service.PurchaseService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequestMapping("/v1/request")
+@RequestMapping("/v1/purchase")
 @RestController
-public class RequestController {
+public class PurchaseController {
 	
 	@Autowired
-	private RequestService requestService;
+	private PurchaseService requestService;
 	
 	@GetMapping
 	@Cacheable(value = "listRequests")
-	public ResponseEntity<List<RequestResponseDTO>> getAllRequests() {
+	public ResponseEntity<List<PurchaseResponseDTO>> getAllPurchases() {
 		
-		log.debug("RequestController.getAllRequests - Start ");
+		log.debug("PurchaseController.getAllPurchases - Start ");
 		
-		List<RequestResponseDTO> response = requestService.getAllRequests();
+		List<PurchaseResponseDTO> response = requestService.getAllpurchases();
 		
-		log.debug("RequestController.getAllRequests - Finish - Response:  [{}]", response);
+		log.debug("PurchaseController.getAllPurchases - Finish - Response:  [{}]", response);
 		
 		return ResponseEntity.ok(response);
 		
@@ -46,18 +46,18 @@ public class RequestController {
 	
 	@PostMapping
 	@CacheEvict(value = "listRequests", allEntries = true)
-	public ResponseEntity<RequestResponseDTO> saveRequest(@Valid @RequestBody RequestDTO request) {
+	public ResponseEntity<PurchaseResponseDTO> savePurchase(@Valid @RequestBody PurchaseRequestDTO request) {
 		
-		log.debug("RequestController.saveRequest - Start - Request:  [{}]", request);
+		log.debug("PurchaseController.savePurchase - Start - Request:  [{}]", request);
 		
-		RequestResponseDTO requestSaved = requestService.saveRequest(request);
+		PurchaseResponseDTO requestSaved = requestService.savePurchase(request);
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(requestSaved.getId())
 				.toUri();
 		
-		ResponseEntity<RequestResponseDTO> response = ResponseEntity.created(uri).body(requestSaved);
+		ResponseEntity<PurchaseResponseDTO> response = ResponseEntity.created(uri).body(requestSaved);
 		
-		log.debug("RequestController.saveRequest - Finish -  Request:  [{}], Response:  [{}]", request, response);
+		log.debug("PurchaseController.savePurchase - Finish -  Request:  [{}], Response:  [{}]", request, response);
 		
 		return response;
 	}

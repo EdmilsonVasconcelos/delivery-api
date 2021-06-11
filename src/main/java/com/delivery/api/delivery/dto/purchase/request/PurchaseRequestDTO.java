@@ -1,4 +1,4 @@
-package com.delivery.api.delivery.dto.requestEntity.request;
+package com.delivery.api.delivery.dto.purchase.request;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,7 +15,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class RequestDTO {
+public class PurchaseRequestDTO {
 	
 	private CustomerRequestDTO customer;
 	
@@ -32,7 +32,7 @@ public class RequestDTO {
 	
 	private Boolean isOpen;
 	
-	RequestDTO() {
+	PurchaseRequestDTO() {
 		this.isOpen = true;
 	}
 
