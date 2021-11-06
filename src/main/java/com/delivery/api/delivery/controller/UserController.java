@@ -85,11 +85,11 @@ public class UserController {
 	@CacheEvict(value = "listUsers", allEntries = true)
 	public ResponseEntity<UserSavedDTO> deleteUser(@RequestParam Long idUser) {
 		
-		log.debug("UserController.deleteBrand - Start - idUser: []", idUser);
+		log.debug("UserController.deleteUser - Start - idUser: []", idUser);
 		
 		userService.deleteUser(idUser);
 		
-		log.debug("UserController.deleteBrand - Finish - idUser: []", idUser);
+		log.debug("UserController.deleteUser - Finish - idUser: []", idUser);
 		
 		return ResponseEntity.noContent().build();
 	} 

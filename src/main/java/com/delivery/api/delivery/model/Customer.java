@@ -4,15 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Embedded;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Customer {
 
-	private String nameClient;
-	
-	private String celPhone;
-	
-	private String address;
+	private String phoneNumber;
+
+	@Embedded
+	private Address address;
 	
 }

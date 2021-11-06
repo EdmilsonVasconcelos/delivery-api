@@ -16,10 +16,6 @@ public class Converter {
 		return Purchase.builder()
 				.customer(customer)
 				.methodPayment(request.getMethodPayment())
-				.observation(request.getObservation())
-				.value(request.getValue())
-				.isOpen(request.getIsOpen())
-				.products(productsRequest)
 				.build();
 	}
 	
@@ -29,9 +25,7 @@ public class Converter {
 				.customer(customer)
 				.products(products)
 				.value(request.getValue())
-				.observation(request.getObservation())
 				.methodPayment(request.getMethodPayment())
-				.isOpen(request.getIsOpen())
 				.build();
 	}
 

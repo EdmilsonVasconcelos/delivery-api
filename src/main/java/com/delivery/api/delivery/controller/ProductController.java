@@ -1,6 +1,5 @@
 package com.delivery.api.delivery.controller;
 
-import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -9,14 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.delivery.api.delivery.dto.product.request.ProductToSaveRequestDTO;
@@ -40,7 +32,7 @@ public class ProductController {
 		
 		log.debug("ProductController.getAllproducts - Start ");
 		
-		List<ProductReponseDTO> response = productService.getAllproducts();
+		var response = productService.getAllproducts();
 		
 		log.debug("ProductController.getAllproducts - Finish - Response:  [{}]", response);
 		
@@ -54,9 +46,9 @@ public class ProductController {
 		
 		log.debug("ProductController.saveProduct - Start - Request:  [{}]", request);
 		
-		ProductReponseDTO productSaved = productService.saveProduct(request);
+		var productSaved = productService.saveProduct(request);
 		
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(productSaved.getId())
+		var uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(productSaved.getId())
 				.toUri();
 		
 		ResponseEntity<ProductReponseDTO> response = ResponseEntity.created(uri).body(productSaved);
@@ -72,9 +64,9 @@ public class ProductController {
 		
 		log.debug("ProductController.updateProduct - Start - Request");
 		
-		ProductReponseDTO productUpdated = productService.updateproduct(request);
+		var productUpdated = productService.updateproduct(request);
 		
-		ResponseEntity<ProductReponseDTO> response = ResponseEntity.ok(productUpdated);
+		var response = ResponseEntity.ok(productUpdated);
 		
 		log.debug("ProductController.updateProduct - Finish -  Request:  [{}], Response:  [{}]", response);
 		
@@ -92,6 +84,19 @@ public class ProductController {
 		log.debug("ProductController.deleteProduct - Finish - idProduct: []", idProduct);
 		
 		return ResponseEntity.noContent().build();
-	} 
+	}
+
+	@GetMapping("{idProduct}")
+	@CacheEvict(value = "listProducts", allEntries = true)
+	public ResponseEntity<ProductReponseDTO> getProductById(@PathVariable Long idProduct) {
+
+		log.debug("ProductController.getProductById - Start - idProduct: []", idProduct);
+
+		var response = productService.getProductById(idProduct);
+
+		log.debug("ProductController.getProductById - Finish - idProduct: [], response: [{}]", idProduct, response);
+
+		return ResponseEntity.ok(response);
+	}
 
 }

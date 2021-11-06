@@ -101,6 +101,26 @@ public class ProductService {
 		
 	}
 
+	public ProductReponseDTO getProductById(Long id) {
+
+		log.debug("ProductService.getProductById - Start - id:  [{}]", id);
+
+		var product = productRepository.findById(id);
+
+		if(!product.isPresent()) {
+			throw new ProductNotExistsException(String.format(PRODUCT_WITH_ID_NOT_EXISTS, id));
+		}
+
+		var productFound = product.get();
+
+		var response = mapper.map(productFound, ProductReponseDTO.class);
+
+		log.debug("ProductService.getProductById - Finish - id: [], response:  [{}]", id, response);
+
+		return response;
+
+	}
+
 	private void checkIfExistsProductByName(String nameProduct) {
 		
 		log.debug("ProductService.checkExistsProduct - Start - Product:  [{}]", nameProduct);

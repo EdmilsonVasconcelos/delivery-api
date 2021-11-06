@@ -22,18 +22,7 @@ public class PurchaseRequestDTO {
 	@NotNull(message = "O id do produto é obrigatório")
 	private List<Long> products;
 	
-	private String observation;
-	
 	@NotNull(message = "A forma de pagamento é obrigatória")
 	private MethodPayment methodPayment;
 	
-	@NotNull(message = "A forma de pagamento é obrigatória")
-	private BigDecimal value;
-	
-	private Boolean isOpen;
-	
-	PurchaseRequestDTO() {
-		this.isOpen = true;
-	}
-
 }

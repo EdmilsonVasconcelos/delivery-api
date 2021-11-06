@@ -54,11 +54,11 @@ public class PurchaseService {
 		Purchase purchaseSaved = purchaseRepository.save(purchaseToSave);
 		
 		CustomerResponseDTO customerSaved = mapper.map(purchaseSaved.getCustomer(), CustomerResponseDTO.class);
-		
+
 		List<ProductReponseDTO> productsSaved = getProductsPurchaseResponseDTO(purchaseSaved.getProducts());
-		
+
 		PurchaseResponseDTO response = Converter.toPurchaseResponseDTO(purchaseSaved, customerSaved, productsSaved);
-		
+
 		log.debug("PurchaseService.savePurchase - Finish - Request [{}], Response:  [{}]", request, response);
 		
 		return response;
@@ -69,11 +69,12 @@ public class PurchaseService {
 		
 		log.debug("PurchaseService.getAllpurchases - Start");
 		
-		List<Purchase> allRequests = purchaseRepository.findByIsOpenTrue();
-		
+		List<Purchase> allRequests = purchaseRepository.findAll();
+
 		List<PurchaseResponseDTO> response = allRequests.stream().map(request -> mapper.map(request, PurchaseResponseDTO.class)).collect(Collectors.toList());
 		
 		log.debug("PurchaseService.getAllpurchases - Finish -  Response:  [{}]", response);
+		
 		
 		return response;
 		
@@ -84,8 +85,6 @@ public class PurchaseService {
 		log.debug("PurchaseService.closePurchase - Start - alterStatusPurchase:  [{}]", idPurchase);
 		
 		Purchase purchase = getPurchaseById(idPurchase);
-		
-		purchase.setIsOpen(!purchase.getIsOpen());
 		
 		Purchase purchaseSaved = purchaseRepository.save(purchase);
 		
