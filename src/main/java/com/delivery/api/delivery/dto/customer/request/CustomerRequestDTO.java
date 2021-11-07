@@ -3,6 +3,7 @@ package com.delivery.api.delivery.dto.customer.request;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.delivery.api.delivery.model.Address;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +19,6 @@ public class CustomerRequestDTO {
 	
 	@NotNull(message = "O endereco do cliente é obrigatório")
 	@Size(message = "O endereco deve ter entre 10 e 255 caracteres", min = 10, max = 255)
-	private String address;
+	private Address address;
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.delivery.api.delivery.model.Address;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,25 +43,27 @@ public class PurchaseService {
 	private ModelMapper mapper;
 	
 	public PurchaseResponseDTO savePurchase(PurchaseRequestDTO request) {
-		
+
 		log.debug("PurchaseService.savePurchase - Start - Request:  [{}]", request);
-		
-		Customer customer = mapper.map(request.getCustomer(), Customer.class);
-		
-		List<Product> products = getProductsPurchase(request.getProducts());
-		
-		Purchase purchaseToSave = Converter.toPurachase(request, customer, products);
-		
-		Purchase purchaseSaved = purchaseRepository.save(purchaseToSave);
-		
-		CustomerResponseDTO customerSaved = mapper.map(purchaseSaved.getCustomer(), CustomerResponseDTO.class);
 
-		List<ProductReponseDTO> productsSaved = getProductsPurchaseResponseDTO(purchaseSaved.getProducts());
+		var address = mapper.map(request.getAddress(), Address.class);
 
-		PurchaseResponseDTO response = Converter.toPurchaseResponseDTO(purchaseSaved, customerSaved, productsSaved);
+		var customer = Customer.builder().address(address).phoneNumber(request.getPhoneNumber()).build();
+
+		var products = getProductsPurchase(request.getProducts());
+
+		var purchaseToSave = Converter.toPurachase(request, customer, products);
+
+		var purchaseSaved = purchaseRepository.save(purchaseToSave);
+
+		var customerSaved = mapper.map(purchaseSaved.getCustomer(), CustomerResponseDTO.class);
+
+		var productsSaved = getProductsPurchaseResponseDTO(purchaseSaved.getProducts());
+
+		var response = Converter.toPurchaseResponseDTO(purchaseSaved, customerSaved, productsSaved);
 
 		log.debug("PurchaseService.savePurchase - Finish - Request [{}], Response:  [{}]", request, response);
-		
+
 		return response;
 		
 	}
@@ -74,7 +77,7 @@ public class PurchaseService {
 		List<PurchaseResponseDTO> response = allRequests.stream().map(request -> mapper.map(request, PurchaseResponseDTO.class)).collect(Collectors.toList());
 		
 		log.debug("PurchaseService.getAllpurchases - Finish -  Response:  [{}]", response);
-		
+
 		
 		return response;
 		

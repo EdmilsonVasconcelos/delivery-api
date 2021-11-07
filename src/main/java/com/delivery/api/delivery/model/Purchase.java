@@ -33,13 +33,11 @@ public class Purchase {
 	@Embedded
 	private Customer customer;
 	
-	@OneToMany
-	private Product product;
-	
-	private BigDecimal value;
-
 	@Enumerated(EnumType.STRING)
 	private MethodPayment methodPayment;
+
+	@ManyToMany
+	private List<Product> products = new ArrayList<>();
 	
     @CreatedDate
     @Column(updatable = false)
