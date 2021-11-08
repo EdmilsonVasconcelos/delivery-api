@@ -36,9 +36,13 @@ public class Purchase {
 	@Enumerated(EnumType.STRING)
 	private MethodPayment methodPayment;
 
+	private Integer quantity;
+
+	private BigDecimal value;
+
 	@ManyToMany
 	private List<Product> products = new ArrayList<>();
-	
+
     @CreatedDate
     @Column(updatable = false)
 	private LocalDateTime created;

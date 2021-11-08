@@ -17,7 +17,7 @@ public class Converter {
 	public static Purchase toPurachase(PurchaseRequestDTO request, Customer customer, List<Product> products) {
 		return Purchase.builder()
 				.customer(customer)
-				.products(products)
+//				.products(products)
 				.methodPayment(request.getMethodPayment())
 				.build();
 	}

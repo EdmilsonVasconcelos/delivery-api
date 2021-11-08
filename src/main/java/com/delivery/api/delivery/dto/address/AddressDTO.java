@@ -1,8 +1,11 @@
 package com.delivery.api.delivery.dto.address;
 
+import lombok.Data;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+@Data
 public class AddressDTO {
 
     @Size(min = 2, max = 255, message = "A rua deve ter entre 2 e 255 caracteres")

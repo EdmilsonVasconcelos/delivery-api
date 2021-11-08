@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.delivery.api.delivery.dto.product.request.ProductPurchaseDTO;
 import com.delivery.api.delivery.model.Address;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,13 +59,13 @@ public class PurchaseService {
 
 		var customerSaved = mapper.map(purchaseSaved.getCustomer(), CustomerResponseDTO.class);
 
-		var productsSaved = getProductsPurchaseResponseDTO(purchaseSaved.getProducts());
+//		var productsSaved = getProductsPurchaseResponseDTO(purchaseSaved.getProducts());
 
-		var response = Converter.toPurchaseResponseDTO(purchaseSaved, customerSaved, productsSaved);
+//		var response = Converter.toPurchaseResponseDTO(purchaseSaved, customerSaved, productsSaved);
 
-		log.debug("PurchaseService.savePurchase - Finish - Request [{}], Response:  [{}]", request, response);
+//		log.debug("PurchaseService.savePurchase - Finish - Request [{}], Response:  [{}]", request, response);
 
-		return response;
+		return null;
 		
 	}
 	
@@ -124,19 +125,11 @@ public class PurchaseService {
 	
 	}
 	
-	private List<Product> getProductsPurchase(List<Long> products) {
+	private List<Product> getProductsPurchase(List<ProductPurchaseDTO> products) {
 		
 		log.debug("PurchaseService.getProductsPurchase - Start - ids:  [{}]", products);
 		
-		List<Product> response = new ArrayList<>();
-		
-		products.forEach(productRequestDTO -> {
-			
-			Product product = getProductById(productRequestDTO);
-			
-			response.add(product);
-			
-		});
+		var response = products.stream().map(productRequestDTO -> getProductById(productRequestDTO.getId())).collect(Collectors.toList());
 		
 		log.debug("PurchaseService.getProductsPurchase - Finish - ids:  [{}], Response: [{}]", products, response);
 		
